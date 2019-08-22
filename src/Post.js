@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Button } from 'antd';
+import "antd/dist/antd.css";
 
 class Post extends Component {
   render() {
@@ -8,12 +10,12 @@ class Post extends Component {
         <h2 >{this.props.post.name}</h2>
         <p>{this.props.post.description}</p>
         <div>
-          <button  onClick={()=> this.props.dispatch({type: 'EDIT_POST', id:this.props.post.id})}>Edit</button>
-          <button onClick={() => this.props.dispatch({ type: "DELETE_POST", id: this.props.post.id })
-          }
-        >
+          <Button type="primary"  onClick={()=> this.props.dispatch({type: 'EDIT_POST', id:this.props.post.id})}>
+            Edit
+          </Button>
+          <Button type="danger" onClick={() => this.props.dispatch({ type: "DELETE_POST", id: this.props.post.id })}>
           Delete
-        </button>
+        </Button>
       </div>
     </div>
     );

@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import {connect} from 'react-redux';
+import { Form,  Button, Typography  } from 'antd';
+import "antd/dist/antd.css";
+
 
 class PostForm extends Component {
   handleSubmit = e => {
@@ -10,46 +13,50 @@ class PostForm extends Component {
       id: new Date(),
       name,
       description,
-      editing: false
+      editing: false,
     };
-    // console.log(data)
-    this.props.dispatch({
+  
+     this.props.dispatch({
         type:'ADD_POST',
         data
     })
-    this.getName.value= '';
-    this.getDescription.value = '';
+        
+    this.getName.value="";
+    this.getDescription.value ="";
   };
   render() {
-   
+     const { getFieldDecorator } = this.props.form;
+     const { Title } = Typography;
     return (
       <div >
-        <h1 >You are adding a new element</h1>
-        <form  onSubmit={this.handleSubmit}>
-          Name:
-         <br /><input
-            required
-            type="text"
-            ref={input => (this.getName = input)}
-            placeholder="Enter Name"
-          />{" "}
-          <br />
-          <br />
-          Description:
-         <br />
-          <textarea
-            required
-            cols="28"
-            rows="5"
-            ref={input => (this.getDescription = input)}
-            placeholder="Enter a description"
-          />{" "}
-          <br />
-          <button>Create</button>
-        </form>
+        <Title level={2}> You are adding a new element</Title>
+        <Form labelCol={{span: 6}} wrapperCol={{span:6}} onSubmit={this.handleSubmit}>
+         
+         <Form.Item label="Name">
+           {getFieldDecorator('name', {
+             rules: [{ message: 'Enter name!'}],
+           })(
+             <input  ref={input => (this.getName = input)} autoComplete="off" required/>)}
+         </Form.Item>
+         
+         <Form.Item label="Description">
+           {getFieldDecorator('description', {
+             rules: [{ message: 'Enter a description!'}],
+           })(<textarea  ref={input => (this.getDescription = input)}
+           autosize={{ minRows: 4, maxRows: 8 }} required/>)}
+          </Form.Item>
+          
+          <Form.Item wrapperCol={{span: 8, offset: 5}}>
+           <Button type="primary" htmlType="submit">
+              Create
+            </Button>
+          </Form.Item>
+
+        </Form>
       </div>
     );
   }
 }
 
-export default connect()(PostForm);
+
+export default connect() (Form.create()(PostForm));
